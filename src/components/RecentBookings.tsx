@@ -10,60 +10,112 @@ interface RecentBookingsProps {
 const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => {
   const allBookings = [
     {
-      name: 'أحمد محمد العلي',
-      service: 'قانون الأسرة',
-      time: '10:30 صباحاً',
-      date: 'اليوم',
-      status: 'confirmed'
+      name: 'أحمد محمد العلي / Ahmed Al-Ali',
+      service: 'قانون الأسرة / Family Law',
+      time: '10:30 صباحاً / 10:30 AM',
+      date: 'اليوم / Today',
+      status: 'confirmed',
+      country: 'Saudi Arabia',
+      flag: '🇸🇦'
     },
     {
-      name: 'Sarah Johnson',
-      service: 'Corporate Law',
-      time: '2:15 PM',
-      date: 'Today',
-      status: 'pending'
+      name: 'فاطمة عبدالرحمن / Fatima Abdulrahman',
+      service: 'المحاسبة الضريبية / Tax Accounting',
+      time: '11:45 صباحاً / 11:45 AM',
+      date: 'أمس / Yesterday',
+      status: 'confirmed',
+      country: 'UAE',
+      flag: '🇦🇪'
     },
     {
-      name: 'فاطمة عبدالرحمن',
-      service: 'المحاسبة الضريبية',
-      time: '11:45 صباحاً',
-      date: 'أمس',
-      status: 'confirmed'
+      name: 'محمد خالد الشمري / Mohammed Al-Shamri',
+      service: 'الاستشارات المالية / Financial Consulting',
+      time: '9:15 صباحاً / 9:15 AM',
+      date: 'أمس / Yesterday',
+      status: 'confirmed',
+      country: 'Kuwait',
+      flag: '🇰🇼'
     },
     {
-      name: 'Michael Brown',
+      name: 'نورا سعد القحطاني / Nora Al-Qahtani',
+      service: 'قانون العقارات / Real Estate Law',
+      time: '1:00 ظهراً / 1:00 PM',
+      date: 'اليوم / Today',
+      status: 'confirmed',
+      country: 'Qatar',
+      flag: '🇶🇦'
+    },
+    {
+      name: 'عبدالله أحمد / Abdullah Ahmed',
+      service: 'القانون التجاري / Commercial Law',
+      time: '3:30 عصراً / 3:30 PM',
+      date: 'اليوم / Today',
+      status: 'pending',
+      country: 'Bahrain',
+      flag: '🇧🇭'
+    },
+    {
+      name: 'ليلى محمد الفهد / Layla Al-Fahd',
+      service: 'الاستشارات القانونية / Legal Consultation',
+      time: '2:15 ظهراً / 2:15 PM',
+      date: 'اليوم / Today',
+      status: 'pending',
+      country: 'Oman',
+      flag: '🇴🇲'
+    },
+    {
+      name: 'سارة أحمد النعيمي / Sarah Al-Nuaimi',
+      service: 'قانون الشركات / Corporate Law',
+      time: '4:20 عصراً / 4:20 PM',
+      date: 'أمس / Yesterday',
+      status: 'completed',
+      country: 'Jordan',
+      flag: '🇯🇴'
+    },
+    {
+      name: 'خالد عبدالعزيز / Khalid Abdulaziz',
+      service: 'المحاسبة الإدارية / Management Accounting',
+      time: '5:45 مساءً / 5:45 PM',
+      date: 'اليوم / Today',
+      status: 'completed',
+      country: 'Lebanon',
+      flag: '🇱🇧'
+    },
+    {
+      name: 'مريم سالم الزهراني / Mariam Al-Zahrani',
+      service: 'القانون الدولي / International Law',
+      time: '8:30 صباحاً / 8:30 AM',
+      date: 'اليوم / Today',
+      status: 'confirmed',
+      country: 'Egypt',
+      flag: '🇪🇬'
+    },
+    {
+      name: 'يوسف محمد العتيبي / Youssef Al-Otaibi',
+      service: 'التدقيق المالي / Financial Auditing',
+      time: '10:00 صباحاً / 10:00 AM',
+      date: 'أمس / Yesterday',
+      status: 'pending',
+      country: 'Morocco',
+      flag: '🇲🇦'
+    },
+    {
+      name: 'John Smith',
       service: 'Legal Documentation',
-      time: '4:20 PM',
-      date: 'Yesterday',
-      status: 'completed'
-    },
-    {
-      name: 'نورا خالد الشمري',
-      service: 'الاستشارات المالية',
-      time: '9:15 صباحاً',
-      date: 'أمس',
-      status: 'confirmed'
-    },
-    {
-      name: 'David Wilson',
-      service: 'Administrative Law',
-      time: '3:30 PM',
+      time: '12:30 PM',
       date: 'Today',
-      status: 'pending'
+      status: 'confirmed',
+      country: 'USA',
+      flag: '🇺🇸'
     },
     {
-      name: 'ليلى أحمد الفهد',
-      service: 'قانون العقارات',
-      time: '1:00 ظهراً',
-      date: 'اليوم',
-      status: 'confirmed'
-    },
-    {
-      name: 'James Miller',
+      name: 'Emily Johnson',
       service: 'HR Legal Services',
-      time: '5:45 PM',
-      date: 'Today',
-      status: 'completed'
+      time: '3:15 PM',
+      date: 'Yesterday',
+      status: 'completed',
+      country: 'UK',
+      flag: '🇬🇧'
     }
   ];
 
@@ -73,7 +125,7 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
     const interval = setInterval(() => {
       const shuffled = [...allBookings].sort(() => 0.5 - Math.random());
       setDisplayedBookings(shuffled.slice(0, 6));
-    }, Math.random() * 8000 + 5000); // Random interval between 5-13 seconds
+    }, Math.random() * 8000 + 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -100,7 +152,7 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
     <div className={`py-20 relative overflow-hidden ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-purple-50 to-pink-50'}`}>
       <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5"></div>
       <div className="container mx-auto px-4 relative z-10">
-        <div className={`text-center mb-16 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+        <div className={`text-center mb-16 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
               <CheckCircle className="w-6 h-6 text-white" />
@@ -135,12 +187,19 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
                   <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                     <User className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    {booking.name}
-                  </h3>
+                  <div className="flex items-center gap-2 flex-1">
+                    <span className="text-xl">{booking.flag}</span>
+                    <h3 className={`font-bold text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                      {booking.name}
+                    </h3>
+                  </div>
                 </div>
                 
                 <div className="space-y-3">
+                  <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {booking.country}
+                  </div>
+                  
                   <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium border ${
                     isDark ? 'bg-purple-900/30 text-purple-300 border-purple-500/30' : 'bg-purple-50 text-purple-700 border-purple-200'
                   }`}>

@@ -43,7 +43,11 @@ const Navigation: React.FC<NavigationProps> = ({
             <Button
               onClick={onAdminLogin}
               variant="outline"
-              className={`${isDark ? 'border-gray-600 text-white hover:bg-gray-800' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} backdrop-blur-sm`}
+              className={`${
+                isDark 
+                  ? 'border-gray-600 text-gray-200 hover:bg-gray-800 hover:text-white' 
+                  : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+              } backdrop-blur-sm`}
             >
               {language === 'ar' ? 'دخول الإدارة' : 'Admin'}
             </Button>

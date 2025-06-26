@@ -9,29 +9,18 @@ interface LanguageToggleProps {
 
 const LanguageToggle: React.FC<LanguageToggleProps> = ({ language, onLanguageChange }) => {
   return (
-    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20">
-      <button
-        onClick={() => onLanguageChange('ar')}
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
-          language === 'ar'
-            ? 'bg-white text-gray-900 shadow-lg'
-            : 'text-white hover:bg-white/20'
+    <button
+      onClick={() => onLanguageChange(language === 'ar' ? 'en' : 'ar')}
+      className="relative w-14 h-7 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full p-1 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+    >
+      <div
+        className={`w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300 flex items-center justify-center text-xs font-bold ${
+          language === 'ar' ? 'translate-x-0 text-blue-600' : 'translate-x-7 text-indigo-600'
         }`}
       >
-        العربية
-      </button>
-      <Globe className="w-4 h-4 text-white" />
-      <button
-        onClick={() => onLanguageChange('en')}
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
-          language === 'en'
-            ? 'bg-white text-gray-900 shadow-lg'
-            : 'text-white hover:bg-white/20'
-        }`}
-      >
-        English
-      </button>
-    </div>
+        {language === 'ar' ? 'ع' : 'E'}
+      </div>
+    </button>
   );
 };
 

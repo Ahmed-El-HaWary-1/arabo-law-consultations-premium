@@ -4,7 +4,7 @@ import { Service } from '@/data/services';
 
 export const useAppState = () => {
   const [language, setLanguage] = useState('ar');
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true); // Changed to true for default dark mode
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);

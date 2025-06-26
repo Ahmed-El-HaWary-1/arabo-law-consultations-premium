@@ -11,7 +11,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({ language, isDark }) => {
   const stats = [
     {
       icon: Trophy,
-      number: '500+',
+      number: '6800+',
       label: { ar: 'قضية منتصرة', en: 'Cases Won' },
       color: 'from-yellow-400 to-orange-500'
     },
@@ -22,10 +22,16 @@ const StatsSection: React.FC<StatsSectionProps> = ({ language, isDark }) => {
       color: 'from-blue-400 to-purple-500'
     },
     {
+      icon: Users,
+      number: '3000+',
+      label: { ar: 'فريقنا', en: 'Our Team' },
+      color: 'from-green-400 to-teal-500'
+    },
+    {
       icon: Calendar,
       number: '25+',
       label: { ar: 'سنة خبرة', en: 'Years Experience' },
-      color: 'from-green-400 to-teal-500'
+      color: 'from-indigo-400 to-cyan-500'
     },
     {
       icon: Star,
@@ -38,7 +44,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({ language, isDark }) => {
   return (
     <div className={`py-16 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {stats.map((stat, index) => (
             <div
               key={index}

@@ -12,6 +12,8 @@ import HeroSection from '@/components/HeroSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import ProcessSection from '@/components/ProcessSection';
 import StatsSection from '@/components/StatsSection';
+import WhyChooseUsSection from '@/components/WhyChooseUsSection';
+import AboutUsSection from '@/components/AboutUsSection';
 import { services } from '@/data/services';
 import { useAppState } from '@/hooks/useAppState';
 
@@ -61,8 +63,6 @@ const Index = () => {
         : 'bg-gradient-to-br from-purple-50 via-white to-pink-50'
     } ${language === 'ar' ? 'font-arabic' : 'font-sans'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       
-      <TrustedCompanies language={language} isDark={isDark} />
-      
       <Navigation
         language={language}
         isDark={isDark}
@@ -72,7 +72,10 @@ const Index = () => {
       />
 
       <HeroSection language={language} isDark={isDark} />
+      <TrustedCompanies language={language} isDark={isDark} />
       <StatsSection language={language} isDark={isDark} />
+      <WhyChooseUsSection language={language} isDark={isDark} />
+      <AboutUsSection language={language} isDark={isDark} />
       <ProcessSection language={language} isDark={isDark} />
       
       <ServicesSection
