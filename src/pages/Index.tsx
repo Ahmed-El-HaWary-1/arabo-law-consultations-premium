@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Crown, Scale, Calculator, FileText, DollarSign, Briefcase, Users2, Award, Star, Phone } from 'lucide-react';
+import { Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageToggle from '@/components/LanguageToggle';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -11,6 +10,9 @@ import RecentBookings from '@/components/RecentBookings';
 import BookingForm from '@/components/BookingForm';
 import AdminLogin from '@/components/AdminLogin';
 import AdminPanel from '@/components/AdminPanel';
+import HeroSection from '@/components/HeroSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import ProcessSection from '@/components/ProcessSection';
 
 const Index = () => {
   const [language, setLanguage] = useState('ar');
@@ -162,27 +164,20 @@ const Index = () => {
       
       <TrustedCompanies language={language} isDark={isDark} />
       
-      {/* Header */}
-      <header className={`relative overflow-hidden ${
-        isDark 
-          ? 'bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900' 
-          : 'bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600'
-      } text-white`}>
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative container mx-auto px-4 pt-6 pb-16">
-          {/* Navigation */}
-          <nav className={`flex items-center justify-between mb-16 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+      {/* Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 glass backdrop-blur-lg border-b ${
+        isDark ? 'border-gray-800' : 'border-white/20'
+      }`}>
+        <div className="container mx-auto px-4 py-4">
+          <div className={`flex items-center justify-between ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
             <div className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
-                <Crown className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center animate-glow">
+                <Crown className="w-5 h-5 text-white" />
               </div>
               <div className={`${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                <h1 className="text-xl font-bold">
-                  {language === 'ar' ? 'المكتب العربي للقانون والمحاسبة' : 'Arab Office for Law & Accounting'}
+                <h1 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  {language === 'ar' ? 'المكتب العربي' : 'Arab Office'}
                 </h1>
-                <p className="text-sm opacity-90">
-                  {language === 'ar' ? 'خبرة تثق بها' : 'Expertise You Can Trust'}
-                </p>
               </div>
             </div>
             
@@ -192,43 +187,23 @@ const Index = () => {
               <Button
                 onClick={() => setShowAdminLogin(true)}
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+                className={`${isDark ? 'border-gray-600 text-white hover:bg-gray-800' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} backdrop-blur-sm`}
               >
                 {language === 'ar' ? 'دخول الإدارة' : 'Admin'}
               </Button>
             </div>
-          </nav>
-
-          {/* Hero Section */}
-          <div className={`text-center animate-fade-in ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 animate-scale-in">
-              {language === 'ar' ? 'استشارات قانونية ومحاسبية متميزة' : 'Premier Legal & Accounting Consultations'}
-            </h2>
-            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-              {language === 'ar' 
-                ? 'احصل على استشارة متخصصة من خبراء القانون والمحاسبة المعتمدين'
-                : 'Get expert consultation from certified legal and accounting professionals'
-              }
-            </p>
-            <div className={`flex items-center justify-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold px-8 py-4 text-lg animate-fade-in"
-                style={{ animationDelay: '0.3s' }}
-              >
-                {language === 'ar' ? 'احجز استشارتك الآن' : 'Book Your Consultation'}
-              </Button>
-              <div className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <Phone className="w-5 h-5" />
-                <span className="text-lg">+966 11 123 4567</span>
-              </div>
-            </div>
           </div>
         </div>
-      </header>
+      </nav>
+
+      {/* Hero Section */}
+      <HeroSection language={language} isDark={isDark} />
 
       {/* Stats Section */}
       <StatsSection language={language} isDark={isDark} />
+
+      {/* Process Section */}
+      <ProcessSection language={language} isDark={isDark} />
 
       {/* Services Section */}
       <section className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
@@ -270,9 +245,13 @@ const Index = () => {
       {/* Recent Bookings */}
       <RecentBookings language={language} isDark={isDark} />
 
+      {/* Testimonials */}
+      <TestimonialsSection language={language} isDark={isDark} />
+
       {/* Footer */}
-      <footer className={`py-12 ${isDark ? 'bg-gray-800' : 'bg-gray-900'} text-white`}>
-        <div className="container mx-auto px-4">
+      <footer className={`py-12 ${isDark ? 'bg-gray-950' : 'bg-gray-900'} text-white relative overflow-hidden`}>
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
             <div>
               <div className={`flex items-center gap-3 mb-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
