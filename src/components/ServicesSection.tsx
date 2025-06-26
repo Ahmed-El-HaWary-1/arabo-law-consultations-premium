@@ -1,13 +1,6 @@
-
 import React from 'react';
 import ServiceCard from '@/components/ServiceCard';
-
-interface Service {
-  title: { ar: string; en: string };
-  description: { ar: string[]; en: string[] };
-  price: number;
-  icon: string;
-}
+import { Service } from '@/data/services';
 
 interface ServicesSectionProps {
   language: string;
