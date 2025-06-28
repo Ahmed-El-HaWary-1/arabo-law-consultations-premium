@@ -4,7 +4,7 @@ import { Service } from '@/data/services';
 
 export const useAppState = () => {
   const [language, setLanguage] = useState('ar');
-  const [isDark, setIsDark] = useState(true); // Changed to true for default dark mode
+  const [isDark, setIsDark] = useState(true);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
@@ -18,7 +18,12 @@ export const useAppState = () => {
   };
 
   const handleBookingSubmit = (bookingData: any) => {
-    setBookings(prev => [...prev, bookingData]);
+    const newBooking = {
+      ...bookingData,
+      id: `${bookingData.name}_${bookingData.timestamp}`,
+      contacted: false
+    };
+    setBookings(prev => [...prev, newBooking]);
     setShowBookingForm(false);
     setSelectedService(null);
     alert(language === 'ar' ? 'تم حفظ طلب الاستشارة بنجاح!' : 'Consultation request saved successfully!');
@@ -29,6 +34,11 @@ export const useAppState = () => {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
+      
+      // Store remember me preference (in real app, would use proper session management)
+      if (credentials.rememberMe) {
+        localStorage.setItem('adminRemember', 'true');
+      }
     } else {
       alert(language === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
     }
@@ -37,11 +47,16 @@ export const useAppState = () => {
   const handleAdminLogout = () => {
     setIsAdmin(false);
     setShowAdminPanel(false);
+    localStorage.removeItem('adminRemember');
   };
 
   const handleBackToMain = () => {
     setShowBookingForm(false);
     setSelectedService(null);
+  };
+
+  const handleBackFromAdmin = () => {
+    setShowAdminLogin(false);
   };
 
   return {
@@ -63,5 +78,6 @@ export const useAppState = () => {
     handleAdminLogin,
     handleAdminLogout,
     handleBackToMain,
+    handleBackFromAdmin,
   };
 };

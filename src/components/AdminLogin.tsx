@@ -1,17 +1,18 @@
 
 import React, { useState } from 'react';
-import { Eye, EyeOff, Shield } from 'lucide-react';
+import { Eye, EyeOff, Shield, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 interface AdminLoginProps {
-  onLogin: (credentials: { email: string; password: string }) => void;
+  onLogin: (credentials: { email: string; password: string; rememberMe: boolean }) => void;
+  onBack: () => void;
   language: string;
   isDark: boolean;
 }
 
-const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin, language, isDark }) => {
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
+const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin, onBack, language, isDark }) => {
+  const [credentials, setCredentials] = useState({ email: '', password: '', rememberMe: false });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,6 +36,17 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin, language, isDark }) =>
           ? 'bg-gradient-to-br from-gray-800 to-gray-900' 
           : 'bg-white'
       }`}>
+        {/* Back Button */}
+        <Button
+          onClick={onBack}
+          variant="ghost"
+          size="sm"
+          className={`mb-4 ${isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          {language === 'ar' ? 'رجوع' : 'Back'}
+        </Button>
+
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
             <Shield className="w-8 h-8 text-white" />
@@ -89,6 +101,25 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin, language, isDark }) =>
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
+          </div>
+
+          {/* Remember Me Checkbox */}
+          <div className={`flex items-center ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={credentials.rememberMe}
+              onChange={(e) => setCredentials({...credentials, rememberMe: e.target.checked})}
+              className={`w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500 ${
+                language === 'ar' ? 'ml-2' : 'mr-2'
+              }`}
+            />
+            <label 
+              htmlFor="rememberMe" 
+              className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}
+            >
+              {language === 'ar' ? 'تذكرني' : 'Remember me'}
+            </label>
           </div>
 
           <Button

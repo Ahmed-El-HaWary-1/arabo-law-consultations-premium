@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Crown } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface HeroSectionProps {
@@ -47,7 +48,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ language, isDark }) => {
       <div className="container mx-auto px-4 relative z-10">
         <div className={`text-center text-white ${language === 'ar' ? 'text-center' : 'text-center'}`}>
           {/* Main Title */}
-          <h1 className="text-6xl md:text-8xl font-bold mb-8 animate-scale-in leading-tight">
+          <h1 className={`text-6xl md:text-8xl font-bold mb-8 animate-scale-in leading-tight ${
+            language === 'ar' ? 'text-center' : 'text-center'
+          }`}>
             <span className="bg-gradient-to-r from-yellow-400 via-pink-300 to-purple-300 bg-clip-text text-transparent">
               {language === 'ar' ? 'المكتب العربي' : 'Arab Office'}
             </span>
@@ -73,8 +76,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ language, isDark }) => {
               className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-10 py-6 text-xl rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in"
               style={{ animationDelay: '0.6s' }}
             >
-              <Crown className="w-6 h-6 mr-2" />
-              {language === 'ar' ? 'لماذا نحن الأفضل' : 'Why Choose Us'}
+              <Users className="w-6 h-6 mr-2" />
+              {language === 'ar' ? 'لماذا تختارنا' : 'Why Choose Us'}
             </Button>
             
             <Button
@@ -90,20 +93,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ language, isDark }) => {
             >
               {language === 'ar' ? 'من نحن' : 'About Us'}
             </Button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className={`flex items-center justify-center gap-8 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            {[
-              { number: '6800+', text: language === 'ar' ? 'قضية ناجحة' : 'Cases Won' },
-              { number: '2600+', text: language === 'ar' ? 'عميل راضٍ' : 'Happy Clients' },
-              { number: '25+', text: language === 'ar' ? 'سنة خبرة' : 'Years Experience' }
-            ].map((item, index) => (
-              <div key={index} className={`text-center animate-fade-in ${language === 'ar' ? 'text-center' : 'text-center'}`} style={{ animationDelay: `${1.2 + index * 0.2}s` }}>
-                <div className="text-3xl font-bold text-yellow-400">{item.number}</div>
-                <div className="text-sm opacity-75">{item.text}</div>
-              </div>
-            ))}
           </div>
         </div>
       </div>

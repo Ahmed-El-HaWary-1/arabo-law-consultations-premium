@@ -14,6 +14,7 @@ import ProcessSection from '@/components/ProcessSection';
 import StatsSection from '@/components/StatsSection';
 import WhyChooseUsSection from '@/components/WhyChooseUsSection';
 import AboutUsSection from '@/components/AboutUsSection';
+import LocationSection from '@/components/LocationSection';
 import { services } from '@/data/services';
 import { useAppState } from '@/hooks/useAppState';
 
@@ -34,14 +35,30 @@ const Index = () => {
     handleAdminLogin,
     handleAdminLogout,
     handleBackToMain,
+    handleBackFromAdmin,
   } = useAppState();
 
   if (showAdminLogin) {
-    return <AdminLogin onLogin={handleAdminLogin} language={language} isDark={isDark} />;
+    return (
+      <AdminLogin 
+        onLogin={handleAdminLogin} 
+        onBack={handleBackFromAdmin}
+        language={language} 
+        isDark={isDark} 
+      />
+    );
   }
 
   if (showAdminPanel) {
-    return <AdminPanel bookings={bookings} language={language} isDark={isDark} onLogout={handleAdminLogout} />;
+    return (
+      <AdminPanel 
+        bookings={bookings} 
+        language={language} 
+        isDark={isDark} 
+        onLogout={handleAdminLogout}
+        onBack={handleBackFromAdmin}
+      />
+    );
   }
 
   if (showBookingForm) {
@@ -87,6 +104,7 @@ const Index = () => {
 
       <RecentBookings language={language} isDark={isDark} />
       <TestimonialsSection language={language} isDark={isDark} />
+      <LocationSection language={language} isDark={isDark} />
       <Footer language={language} isDark={isDark} />
     </div>
   );

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Phone, Upload, X, File, Image, FileText } from 'lucide-react';
+import { Phone, Upload, X, File, Image, FileText, MapPin, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -28,10 +28,21 @@ const BookingForm: React.FC<BookingFormProps> = ({
     name: '',
     email: '',
     phone: '',
+    country: '',
+    city: '',
     date: '',
     time: '',
     description: '',
   });
+
+  const countries = [
+    'Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Bahrain', 'Oman',
+    'Jordan', 'Lebanon', 'Syria', 'Iraq', 'Palestine', 'Egypt', 'Libya', 'Tunisia',
+    'Algeria', 'Morocco', 'Sudan', 'Yemen', 'Somalia', 'Djibouti', 'Comoros',
+    'United States', 'United Kingdom', 'Canada', 'Australia', 'Germany', 'France',
+    'Italy', 'Spain', 'Netherlands', 'Belgium', 'Switzerland', 'Austria',
+    'Turkey', 'Iran', 'Pakistan', 'India', 'Bangladesh', 'Malaysia', 'Indonesia'
+  ];
 
   const handlePhoneVerification = () => {
     // Simulate sending verification code
@@ -152,6 +163,48 @@ const BookingForm: React.FC<BookingFormProps> = ({
                     {language === 'ar' ? 'تحقق' : 'Verify'}
                   </Button>
                 </div>
+              </div>
+
+              {/* Country Field */}
+              <div>
+                <label className={`block text-sm font-medium mb-2 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                } ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <Globe className="w-4 h-4 inline mr-1" />
+                  {language === 'ar' ? 'البلد' : 'Country'}
+                </label>
+                <select
+                  value={formData.country}
+                  onChange={(e) => setFormData({...formData, country: e.target.value})}
+                  className={`w-full px-3 py-2 border rounded-md ${
+                    isDark 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'bg-white border-gray-300'
+                  } ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                >
+                  <option value="">{language === 'ar' ? 'اختر البلد' : 'Select Country'}</option>
+                  {countries.map(country => (
+                    <option key={country} value={country}>{country}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* City Field */}
+              <div>
+                <label className={`block text-sm font-medium mb-2 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                } ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <MapPin className="w-4 h-4 inline mr-1" />
+                  {language === 'ar' ? 'المدينة' : 'City'}
+                </label>
+                <Input
+                  value={formData.city}
+                  onChange={(e) => setFormData({...formData, city: e.target.value})}
+                  className={`${language === 'ar' ? 'text-right' : 'text-left'} ${
+                    isDark ? 'bg-gray-700 border-gray-600 text-white' : ''
+                  }`}
+                  placeholder={language === 'ar' ? 'أدخل المدينة' : 'Enter your city'}
+                />
               </div>
             </div>
           )}
@@ -307,7 +360,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-lg py-3"
                 disabled={!formData.name || !formData.date || !formData.time}
               >
-                {language === 'ar' ? 'إكمال الدفع' : 'Complete Payment'}
+                {language === 'ar' ? 'إكمال الحجز' : 'Complete Booking'}
               </Button>
             </div>
           )}
