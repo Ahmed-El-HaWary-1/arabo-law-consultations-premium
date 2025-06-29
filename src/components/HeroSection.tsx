@@ -84,11 +84,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ language, isDark }) => {
               size="lg"
               onClick={() => scrollToSection('about-us')}
               variant="outline"
-              className={`px-10 py-6 text-xl rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in border-2 text-white hover:text-white ${
-                isDark 
-                  ? 'border-white/30 hover:bg-white/10' 
-                  : 'border-white/50 hover:bg-white/20'
-              } backdrop-blur-sm`}
+              className="px-10 py-6 text-xl rounded-2xl border-2 border-white/30 text-white hover:text-white hover:bg-white/10 backdrop-blur-sm shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in"
               style={{ animationDelay: '0.9s' }}
             >
               {language === 'ar' ? 'من نحن' : 'About Us'}
