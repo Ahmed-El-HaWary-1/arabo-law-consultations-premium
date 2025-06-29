@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import ServicesSection from '@/components/ServicesSection';
 import Footer from '@/components/Footer';
@@ -19,6 +20,7 @@ import { services } from '@/data/services';
 import { useAppState } from '@/hooks/useAppState';
 
 const Index = () => {
+  const location = useLocation();
   const {
     language,
     isDark,
@@ -38,7 +40,10 @@ const Index = () => {
     handleBackFromAdmin,
   } = useAppState();
 
-  if (showAdminLogin) {
+  // Check if we're on the admin route
+  const isAdminRoute = location.pathname === '/admin';
+
+  if (isAdminRoute || showAdminLogin) {
     return (
       <AdminLogin 
         onLogin={handleAdminLogin} 
@@ -85,7 +90,6 @@ const Index = () => {
         isDark={isDark}
         onLanguageChange={setLanguage}
         onDarkModeToggle={() => setIsDark(!isDark)}
-        onAdminLogin={() => setShowAdminLogin(true)}
       />
 
       <HeroSection language={language} isDark={isDark} />

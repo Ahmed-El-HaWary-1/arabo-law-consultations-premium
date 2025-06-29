@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Crown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import LanguageToggle from '@/components/LanguageToggle';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
@@ -10,7 +9,6 @@ interface NavigationProps {
   isDark: boolean;
   onLanguageChange: (lang: string) => void;
   onDarkModeToggle: () => void;
-  onAdminLogin: () => void;
 }
 
 const Navigation: React.FC<NavigationProps> = ({
@@ -18,7 +16,6 @@ const Navigation: React.FC<NavigationProps> = ({
   isDark,
   onLanguageChange,
   onDarkModeToggle,
-  onAdminLogin,
 }) => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 glass backdrop-blur-lg border-b ${
@@ -40,17 +37,6 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className={`flex items-center gap-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
             <LanguageToggle language={language} onLanguageChange={onLanguageChange} />
             <DarkModeToggle isDark={isDark} onToggle={onDarkModeToggle} />
-            <Button
-              onClick={onAdminLogin}
-              variant="outline"
-              className={`${
-                isDark 
-                  ? 'border-gray-600 text-gray-200 hover:bg-gray-800 hover:text-white' 
-                  : 'border-gray-300 text-gray-700 hover:bg-gray-100'
-              } backdrop-blur-sm`}
-            >
-              {language === 'ar' ? 'دخول الإدارة' : 'Admin'}
-            </Button>
           </div>
         </div>
       </div>

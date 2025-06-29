@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Globe } from 'lucide-react';
 
 interface LanguageToggleProps {
   language: string;
@@ -18,7 +17,7 @@ const LanguageToggle: React.FC<LanguageToggleProps> = ({ language, onLanguageCha
           language === 'ar' ? 'translate-x-0 text-blue-600' : 'translate-x-7 text-indigo-600'
         }`}
       >
-        {language === 'ar' ? 'ع' : 'E'}
+        {language === 'ar' ? 'EN' : 'ع'}
       </div>
     </button>
   );
