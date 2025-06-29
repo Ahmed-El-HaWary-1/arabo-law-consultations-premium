@@ -46,11 +46,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ language, isDark }) => {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className={`text-center text-white ${language === 'ar' ? 'text-center' : 'text-center'}`}>
+        <div className="text-center text-white">
           {/* Main Title */}
-          <h1 className={`text-6xl md:text-8xl font-bold mb-8 animate-scale-in leading-tight ${
-            language === 'ar' ? 'text-center' : 'text-center'
-          }`}>
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 animate-scale-in leading-tight">
             <span className="bg-gradient-to-r from-yellow-400 via-pink-300 to-purple-300 bg-clip-text text-transparent">
               {language === 'ar' ? 'المكتب العربي' : 'Arab Office'}
             </span>
@@ -84,7 +82,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ language, isDark }) => {
               size="lg"
               onClick={() => scrollToSection('about-us')}
               variant="outline"
-              className="px-10 py-6 text-xl rounded-2xl border-2 border-white/30 text-white hover:text-white hover:bg-white/10 backdrop-blur-sm shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in"
+              className="px-10 py-6 text-xl rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white hover:text-gray-900 backdrop-blur-sm shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in"
               style={{ animationDelay: '0.9s' }}
             >
               {language === 'ar' ? 'من نحن' : 'About Us'}
