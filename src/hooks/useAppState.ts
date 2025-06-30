@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Service } from '@/data/services';
 
@@ -30,27 +29,40 @@ export const useAppState = () => {
   };
 
   const handleAdminLogin = (credentials: any) => {
-    console.log('Login attempt with:', credentials);
-    console.log('Email check:', credentials.email === 'admin@arabofficela.com');
-    console.log('Password check:', credentials.password === 'admin123');
+    console.log('=== LOGIN DEBUG START ===');
+    console.log('Full credentials object:', JSON.stringify(credentials, null, 2));
+    console.log('Email value:', `"${credentials.email}"`);
+    console.log('Password value:', `"${credentials.password}"`);
+    console.log('Email type:', typeof credentials.email);
+    console.log('Password type:', typeof credentials.password);
     
-    // Trim whitespace and ensure exact match
-    const email = credentials.email?.trim();
-    const password = credentials.password?.trim();
+    // Clean the inputs
+    const email = String(credentials.email || '').trim().toLowerCase();
+    const password = String(credentials.password || '').trim();
+    const expectedEmail = 'admin@arabofficela.com';
+    const expectedPassword = 'admin123';
     
-    if (email === 'admin@arabofficela.com' && password === 'admin123') {
-      console.log('Login successful!');
+    console.log('Cleaned email:', `"${email}"`);
+    console.log('Cleaned password:', `"${password}"`);
+    console.log('Expected email:', `"${expectedEmail}"`);
+    console.log('Expected password:', `"${expectedPassword}"`);
+    console.log('Email match:', email === expectedEmail);
+    console.log('Password match:', password === expectedPassword);
+    console.log('=== LOGIN DEBUG END ===');
+    
+    if (email === expectedEmail && password === expectedPassword) {
+      console.log('✅ LOGIN SUCCESSFUL!');
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
       
-      // Store remember me preference (in real app, would use proper session management)
       if (credentials.rememberMe) {
         localStorage.setItem('adminRemember', 'true');
       }
     } else {
-      console.log('Login failed - invalid credentials');
-      alert(language === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
+      console.log('❌ LOGIN FAILED');
+      console.log('Reason: Email or password mismatch');
+      alert(language === 'ar' ? 'بيانات الدخول غير صحيحة. تأكد من البريد الإلكتروني وكلمة المرور.' : 'Invalid credentials. Please check your email and password.');
     }
   };
 
