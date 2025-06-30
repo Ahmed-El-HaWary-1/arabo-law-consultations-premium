@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Service } from '@/data/services';
 
@@ -29,40 +30,17 @@ export const useAppState = () => {
   };
 
   const handleAdminLogin = (credentials: any) => {
-    console.log('=== LOGIN DEBUG START ===');
-    console.log('Full credentials object:', JSON.stringify(credentials, null, 2));
-    console.log('Email value:', `"${credentials.email}"`);
-    console.log('Password value:', `"${credentials.password}"`);
-    console.log('Email type:', typeof credentials.email);
-    console.log('Password type:', typeof credentials.password);
-    
-    // Clean the inputs
-    const email = String(credentials.email || '').trim().toLowerCase();
-    const password = String(credentials.password || '').trim();
-    const expectedEmail = 'admin@arabofficela.com';
-    const expectedPassword = 'admin123';
-    
-    console.log('Cleaned email:', `"${email}"`);
-    console.log('Cleaned password:', `"${password}"`);
-    console.log('Expected email:', `"${expectedEmail}"`);
-    console.log('Expected password:', `"${expectedPassword}"`);
-    console.log('Email match:', email === expectedEmail);
-    console.log('Password match:', password === expectedPassword);
-    console.log('=== LOGIN DEBUG END ===');
-    
-    if (email === expectedEmail && password === expectedPassword) {
-      console.log('✅ LOGIN SUCCESSFUL!');
+    if (credentials.email === 'admin@arabofficela.com' && credentials.password === 'admin123') {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
       
+      // Store remember me preference (in real app, would use proper session management)
       if (credentials.rememberMe) {
         localStorage.setItem('adminRemember', 'true');
       }
     } else {
-      console.log('❌ LOGIN FAILED');
-      console.log('Reason: Email or password mismatch');
-      alert(language === 'ar' ? 'بيانات الدخول غير صحيحة. تأكد من البريد الإلكتروني وكلمة المرور.' : 'Invalid credentials. Please check your email and password.');
+      alert(language === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
     }
   };
 
