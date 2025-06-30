@@ -30,7 +30,17 @@ export const useAppState = () => {
   };
 
   const handleAdminLogin = (credentials: any) => {
-    if (credentials.email === 'admin@arabofficela.com' && credentials.password === 'admin123') {
+    // Accept multiple valid admin credentials
+    const validCredentials = [
+      { email: 'admin@arabofficela.com', password: 'admin123' },
+      { email: 'your@email.com', password: 'yourpassword' }, // Add your actual credentials here
+    ];
+
+    const isValidLogin = validCredentials.some(
+      valid => valid.email === credentials.email && valid.password === credentials.password
+    );
+
+    if (isValidLogin) {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
