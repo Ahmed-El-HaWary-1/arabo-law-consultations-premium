@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Service } from '@/data/services';
 
@@ -29,7 +30,16 @@ export const useAppState = () => {
   };
 
   const handleAdminLogin = (credentials: any) => {
-    if (credentials.email === 'admin@arabofficela.com' && credentials.password === 'admin123') {
+    console.log('Login attempt with:', credentials);
+    console.log('Email check:', credentials.email === 'admin@arabofficela.com');
+    console.log('Password check:', credentials.password === 'admin123');
+    
+    // Trim whitespace and ensure exact match
+    const email = credentials.email?.trim();
+    const password = credentials.password?.trim();
+    
+    if (email === 'admin@arabofficela.com' && password === 'admin123') {
+      console.log('Login successful!');
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
@@ -39,6 +49,7 @@ export const useAppState = () => {
         localStorage.setItem('adminRemember', 'true');
       }
     } else {
+      console.log('Login failed - invalid credentials');
       alert(language === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
     }
   };
