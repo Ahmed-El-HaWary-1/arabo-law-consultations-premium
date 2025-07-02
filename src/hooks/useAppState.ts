@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Service } from '@/data/services';
 
 export const useAppState = () => {
@@ -11,6 +11,15 @@ export const useAppState = () => {
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [bookings, setBookings] = useState<any[]>([]);
+
+  // Check if user is already logged in on mount
+  useEffect(() => {
+    const remembered = localStorage.getItem('adminRemember');
+    if (remembered === 'true') {
+      setIsAdmin(true);
+      setShowAdminPanel(true);
+    }
+  }, []);
 
   const handleServiceSelect = (service: Service) => {
     setSelectedService(service);
@@ -30,19 +39,10 @@ export const useAppState = () => {
   };
 
   const handleAdminLogin = (credentials: { email: string; password: string; rememberMe: boolean }) => {
-    console.log('Login attempt:', credentials);
-    
     const email = credentials.email.trim().toLowerCase();
     const password = credentials.password.trim();
     
-    console.log('Processed credentials:', { email, password });
-    console.log('Expected email:', 'admin@arabofficela.com');
-    console.log('Expected password:', 'admin123');
-    console.log('Email match:', email === 'admin@arabofficela.com');
-    console.log('Password match:', password === 'admin123');
-    
     if (email === 'admin@arabofficela.com' && password === 'admin123') {
-      console.log('Login successful, setting admin state...');
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
@@ -51,9 +51,9 @@ export const useAppState = () => {
         localStorage.setItem('adminRemember', 'true');
       }
       
-      console.log('Admin state updated');
+      // Show success message
+      alert(language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Login successful');
     } else {
-      console.log('Login failed - invalid credentials');
       alert(language === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
     }
   };
@@ -61,6 +61,7 @@ export const useAppState = () => {
   const handleAdminLogout = () => {
     setIsAdmin(false);
     setShowAdminPanel(false);
+    setShowAdminLogin(false);
     localStorage.removeItem('adminRemember');
   };
 
@@ -71,6 +72,7 @@ export const useAppState = () => {
 
   const handleBackFromAdmin = () => {
     setShowAdminLogin(false);
+    setShowAdminPanel(false);
   };
 
   return {

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import ServicesSection from '@/components/ServicesSection';
@@ -28,6 +28,7 @@ const Index = () => {
     showBookingForm,
     showAdminLogin,
     showAdminPanel,
+    isAdmin,
     bookings,
     setLanguage,
     setIsDark,
@@ -40,21 +41,29 @@ const Index = () => {
     handleBackFromAdmin,
   } = useAppState();
 
-  // Check if we're on the admin route
-  const isAdminRoute = location.pathname === '/admin';
+  // Check if we're on the admin route and set admin login state
+  useEffect(() => {
+    if (location.pathname === '/admin' && !isAdmin && !showAdminPanel) {
+      setShowAdminLogin(true);
+    }
+  }, [location.pathname, isAdmin, showAdminPanel, setShowAdminLogin]);
 
-  if (isAdminRoute || showAdminLogin) {
-    return (
-      <AdminLogin 
-        onLogin={handleAdminLogin} 
-        onBack={handleBackFromAdmin}
-        language={language} 
-        isDark={isDark} 
-      />
-    );
+  // Show admin login if on admin route or showAdminLogin is true
+  if (location.pathname === '/admin' || showAdminLogin) {
+    if (!isAdmin && !showAdminPanel) {
+      return (
+        <AdminLogin 
+          onLogin={handleAdminLogin} 
+          onBack={handleBackFromAdmin}
+          language={language} 
+          isDark={isDark} 
+        />
+      );
+    }
   }
 
-  if (showAdminPanel) {
+  // Show admin panel if logged in as admin
+  if (showAdminPanel || (location.pathname === '/admin' && isAdmin)) {
     return (
       <AdminPanel 
         bookings={bookings} 
@@ -66,6 +75,7 @@ const Index = () => {
     );
   }
 
+  // Show booking form
   if (showBookingForm) {
     return (
       <BookingForm
@@ -78,6 +88,7 @@ const Index = () => {
     );
   }
 
+  // Show main homepage
   return (
     <div className={`min-h-screen transition-all duration-500 ${
       isDark 
