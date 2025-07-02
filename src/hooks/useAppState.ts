@@ -29,13 +29,15 @@ export const useAppState = () => {
     alert(language === 'ar' ? 'تم حفظ طلب الاستشارة بنجاح!' : 'Consultation request saved successfully!');
   };
 
-  const handleAdminLogin = (credentials: any) => {
-    if (credentials.email === 'admin@arabofficela.com' && credentials.password === 'admin123') {
+  const handleAdminLogin = (credentials: { email: string; password: string; rememberMe: boolean }) => {
+    const email = credentials.email.trim().toLowerCase();
+    const password = credentials.password.trim();
+    
+    if (email === 'admin@arabofficela.com' && password === 'admin123') {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setShowAdminPanel(true);
       
-      // Store remember me preference (in real app, would use proper session management)
       if (credentials.rememberMe) {
         localStorage.setItem('adminRemember', 'true');
       }
