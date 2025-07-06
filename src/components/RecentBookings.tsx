@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, User, CheckCircle } from 'lucide-react';
+import { CheckCircle, Zap, TrendingUp } from 'lucide-react';
+import BookingCard from './BookingCard';
 
 interface RecentBookingsProps {
   language: string;
@@ -119,8 +120,10 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
   ];
 
   const [displayedBookings, setDisplayedBookings] = useState(allBookings.slice(0, 6));
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    setIsVisible(true);
     const interval = setInterval(() => {
       const shuffled = [...allBookings].sort(() => 0.5 - Math.random());
       setDisplayedBookings(shuffled.slice(0, 6));
@@ -129,134 +132,77 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
     return () => clearInterval(interval);
   }, []);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-700 border-green-200';
-      case 'pending': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'completed': return 'bg-blue-100 text-blue-700 border-blue-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    const statusMap = {
-      confirmed: { ar: 'مؤكد', en: 'Confirmed' },
-      pending: { ar: 'قيد الانتظار', en: 'Pending' },
-      completed: { ar: 'مكتمل', en: 'Completed' }
-    };
-    return language === 'ar' ? statusMap[status as keyof typeof statusMap]?.ar : statusMap[status as keyof typeof statusMap]?.en;
-  };
-
   return (
-    <div className={`py-20 relative overflow-hidden ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-purple-50 to-pink-50'}`}>
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5"></div>
-      <div className="container mx-auto px-4 relative z-10">
-        <div className={`text-center mb-16 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-              <CheckCircle className="w-6 h-6 text-white" />
+    <div className={`py-20 relative overflow-hidden ${
+      isDark 
+        ? 'bg-gradient-to-br from-gray-900 via-purple-900/10 to-gray-900' 
+        : 'bg-gradient-to-br from-purple-50 via-white to-pink-50'
+    }`}>
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse-glow"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-bounce-subtle"></div>
+      </div>
+
+      <div className="container-modern relative z-10">
+        {/* Enhanced Header */}
+        <div className={`text-center mb-16 ${isVisible ? 'animate-float-up' : 'opacity-0'}`}>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-cosmic rounded-2xl flex items-center justify-center shadow-luxury animate-pulse-glow">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center animate-bounce-subtle">
+                <Zap className="w-3 h-3 text-white" />
+              </div>
             </div>
-            <h2 className={`text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent`}>
+            <h2 className="text-5xl font-bold text-gradient font-modern">
               {language === 'ar' ? 'الحجوزات النشطة' : 'Live Bookings'}
             </h2>
+            <TrendingUp className="w-8 h-8 text-purple-500 animate-bounce-subtle" />
           </div>
-          <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+          
+          <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
+            isDark ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             {language === 'ar' 
-              ? 'مواعيد العملاء الحديثة والمؤكدة في الوقت الفعلي'
-              : 'Real-time client appointments and confirmed consultations'
+              ? 'مواعيد العملاء الحديثة والمؤكدة في الوقت الفعلي مع تحديثات مستمرة'
+              : 'Real-time client appointments and confirmed consultations with live updates'
             }
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Enhanced Bookings Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {displayedBookings.map((booking, index) => (
-            <div
+            <BookingCard
               key={`${booking.name}-${index}`}
-              className={`group relative p-8 rounded-3xl transition-all duration-700 hover:scale-105 animate-fade-in backdrop-blur-md cursor-pointer transform hover:-translate-y-2 ${
-                isDark
-                  ? 'bg-gradient-to-br from-gray-800/90 to-gray-900/90 hover:from-gray-700/90 hover:to-gray-800/90 border border-purple-500/30 shadow-2xl hover:shadow-purple-500/20'
-                  : 'bg-white/95 hover:bg-white border border-purple-200/50 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20'
-              } hover:border-purple-400/50`}
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-                boxShadow: isDark 
-                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 92, 246, 0.1)' 
-                  : '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(139, 92, 246, 0.1)'
-              }}
-            >
-              {/* Floating decorative elements */}
-              <div className="absolute -top-3 -right-3 w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-sm group-hover:scale-110 transition-transform duration-300"></div>
-              <div className="absolute -bottom-2 -left-2 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-sm group-hover:scale-110 transition-transform duration-300"></div>
-              
-              {/* Live indicator */}
-              <div className="absolute top-4 right-4 flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className={`text-xs font-medium ${isDark ? 'text-green-400' : 'text-green-600'}`}>
-                  {language === 'ar' ? 'مباشر' : 'LIVE'}
-                </span>
-              </div>
-              
-              <div className={`relative z-10 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                <div className={`flex items-center gap-4 mb-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-purple-500/50 transition-shadow duration-300">
-                    <User className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex items-center gap-3 flex-1">
-                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{booking.flag}</span>
-                    <div>
-                      <h3 className={`font-bold text-sm leading-tight ${isDark ? 'text-white' : 'text-gray-900'} group-hover:text-purple-600 transition-colors duration-300`}>
-                        {booking.name}
-                      </h3>
-                      <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        {booking.country}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className={`inline-block px-4 py-3 rounded-2xl text-sm font-medium border backdrop-blur-sm ${
-                    isDark 
-                      ? 'bg-gradient-to-r from-purple-900/50 to-pink-900/50 text-purple-300 border-purple-500/30 group-hover:border-purple-400/50' 
-                      : 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 border-purple-200 group-hover:border-purple-300'
-                  } transition-all duration-300`}>
-                    {booking.service}
-                  </div>
-                  
-                  <div className={`flex items-center gap-3 text-sm ${
-                    isDark ? 'text-gray-400' : 'text-gray-600'
-                  } ${language === 'ar' ? 'flex-row-reverse' : ''} group-hover:text-purple-500 transition-colors duration-300`}>
-                    <Clock className="w-4 h-4" />
-                    <span className="font-medium">{booking.time} - {booking.date}</span>
-                  </div>
-
-                  <div className={`inline-flex items-center px-4 py-2 rounded-full text-xs font-bold border backdrop-blur-sm ${getStatusColor(booking.status)} group-hover:scale-105 transition-transform duration-300`}>
-                    <div className="w-2 h-2 bg-current rounded-full mr-2 animate-pulse"></div>
-                    {getStatusText(booking.status)}
-                  </div>
-                </div>
-              </div>
-
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-            </div>
+              booking={booking}
+              language={language}
+              isDark={isDark}
+              index={index}
+            />
           ))}
         </div>
 
-        {/* Bottom notification */}
-        <div className="text-center mt-12">
-          <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-full backdrop-blur-md ${
+        {/* Enhanced Bottom Notification */}
+        <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
+          <div className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass-strong shadow-luxury ${
             isDark 
-              ? 'bg-gray-800/80 text-gray-300 border border-gray-700/50' 
-              : 'bg-white/80 text-gray-600 border border-gray-200/50'
-          } shadow-lg`}>
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium">
+              ? 'text-gray-300 border border-gray-700/30' 
+              : 'text-gray-700 border border-gray-200/30'
+          }`}>
+            <div className="relative">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+            </div>
+            <span className="font-medium">
               {language === 'ar' 
-                ? 'يتم تحديث الحجوزات تلقائياً كل 5-10 ثوانِ'
-                : 'Bookings update automatically every 5-10 seconds'
+                ? 'يتم تحديث الحجوزات تلقائياً كل 5-10 ثوانِ • نظام متطور للإشعارات'
+                : 'Bookings update automatically every 5-10 seconds • Advanced notification system'
               }
             </span>
+            <Zap className="w-4 h-4 text-yellow-500 animate-bounce-subtle" />
           </div>
         </div>
       </div>
