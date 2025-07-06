@@ -16,7 +16,6 @@ import StatsSection from '@/components/StatsSection';
 import WhyChooseUsSection from '@/components/WhyChooseUsSection';
 import AboutUsSection from '@/components/AboutUsSection';
 import LocationSection from '@/components/LocationSection';
-import PricingIndicator from '@/components/PricingIndicator';
 import { services } from '@/data/services';
 import { useAppState } from '@/hooks/useAppState';
 import { usePricing } from '@/hooks/usePricing';
@@ -60,7 +59,6 @@ const Index = () => {
 
   // Get services with adjusted prices
   const adjustedServices = getServicesWithAdjustedPrices(services);
-  const priceRange = getPriceRange();
 
   // Show admin login if on admin route or showAdminLogin is true
   if (location.pathname === '/admin' || showAdminLogin) {
@@ -131,14 +129,6 @@ const Index = () => {
         isDark={isDark}
         onLanguageChange={setLanguage}
         onDarkModeToggle={() => setIsDark(!isDark)}
-      />
-
-      <PricingIndicator
-        language={language}
-        isDark={isDark}
-        userCountry={userCountry}
-        pricingTier={pricingTier}
-        priceRange={priceRange}
       />
 
       <HeroSection language={language} isDark={isDark} />
