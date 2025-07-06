@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Clock, User, CheckCircle } from 'lucide-react';
 
@@ -154,7 +153,7 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
       <div className="container mx-auto px-4 relative z-10">
         <div className={`text-center mb-16 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
               <CheckCircle className="w-6 h-6 text-white" />
             </div>
             <h2 className={`text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent`}>
@@ -173,53 +172,92 @@ const RecentBookings: React.FC<RecentBookingsProps> = ({ language, isDark }) => 
           {displayedBookings.map((booking, index) => (
             <div
               key={`${booking.name}-${index}`}
-              className={`group relative p-6 rounded-2xl transition-all duration-700 hover:scale-105 animate-fade-in backdrop-blur-sm ${
+              className={`group relative p-8 rounded-3xl transition-all duration-700 hover:scale-105 animate-fade-in backdrop-blur-md cursor-pointer transform hover:-translate-y-2 ${
                 isDark
-                  ? 'bg-gradient-to-br from-gray-800/80 to-gray-900/80 hover:from-gray-700/80 hover:to-gray-800/80 border border-purple-500/20'
-                  : 'bg-white/80 hover:bg-white/90 border border-purple-200/30 shadow-lg hover:shadow-2xl'
-              }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+                  ? 'bg-gradient-to-br from-gray-800/90 to-gray-900/90 hover:from-gray-700/90 hover:to-gray-800/90 border border-purple-500/30 shadow-2xl hover:shadow-purple-500/20'
+                  : 'bg-white/95 hover:bg-white border border-purple-200/50 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20'
+              } hover:border-purple-400/50`}
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                boxShadow: isDark 
+                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 92, 246, 0.1)' 
+                  : '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(139, 92, 246, 0.1)'
+              }}
             >
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full -translate-y-10 translate-x-10"></div>
+              {/* Floating decorative elements */}
+              <div className="absolute -top-3 -right-3 w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-sm group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute -bottom-2 -left-2 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-sm group-hover:scale-110 transition-transform duration-300"></div>
+              
+              {/* Live indicator */}
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className={`text-xs font-medium ${isDark ? 'text-green-400' : 'text-green-600'}`}>
+                  {language === 'ar' ? 'مباشر' : 'LIVE'}
+                </span>
+              </div>
               
               <div className={`relative z-10 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                <div className={`flex items-center gap-3 mb-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5 text-white" />
+                <div className={`flex items-center gap-4 mb-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-purple-500/50 transition-shadow duration-300">
+                    <User className="w-6 h-6 text-white" />
                   </div>
-                  <div className="flex items-center gap-2 flex-1">
-                    <span className="text-xl">{booking.flag}</span>
-                    <h3 className={`font-bold text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                      {booking.name}
-                    </h3>
+                  <div className="flex items-center gap-3 flex-1">
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{booking.flag}</span>
+                    <div>
+                      <h3 className={`font-bold text-sm leading-tight ${isDark ? 'text-white' : 'text-gray-900'} group-hover:text-purple-600 transition-colors duration-300`}>
+                        {booking.name}
+                      </h3>
+                      <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {booking.country}
+                      </p>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="space-y-3">
-                  <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {booking.country}
-                  </div>
-                  
-                  <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium border ${
-                    isDark ? 'bg-purple-900/30 text-purple-300 border-purple-500/30' : 'bg-purple-50 text-purple-700 border-purple-200'
-                  }`}>
+                <div className="space-y-4">
+                  <div className={`inline-block px-4 py-3 rounded-2xl text-sm font-medium border backdrop-blur-sm ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-purple-900/50 to-pink-900/50 text-purple-300 border-purple-500/30 group-hover:border-purple-400/50' 
+                      : 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 border-purple-200 group-hover:border-purple-300'
+                  } transition-all duration-300`}>
                     {booking.service}
                   </div>
                   
-                  <div className={`flex items-center gap-2 text-sm ${
+                  <div className={`flex items-center gap-3 text-sm ${
                     isDark ? 'text-gray-400' : 'text-gray-600'
-                  } ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                  } ${language === 'ar' ? 'flex-row-reverse' : ''} group-hover:text-purple-500 transition-colors duration-300`}>
                     <Clock className="w-4 h-4" />
-                    <span>{booking.time} - {booking.date}</span>
+                    <span className="font-medium">{booking.time} - {booking.date}</span>
                   </div>
 
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(booking.status)}`}>
+                  <div className={`inline-flex items-center px-4 py-2 rounded-full text-xs font-bold border backdrop-blur-sm ${getStatusColor(booking.status)} group-hover:scale-105 transition-transform duration-300`}>
+                    <div className="w-2 h-2 bg-current rounded-full mr-2 animate-pulse"></div>
                     {getStatusText(booking.status)}
                   </div>
                 </div>
               </div>
+
+              {/* Hover glow effect */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom notification */}
+        <div className="text-center mt-12">
+          <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-full backdrop-blur-md ${
+            isDark 
+              ? 'bg-gray-800/80 text-gray-300 border border-gray-700/50' 
+              : 'bg-white/80 text-gray-600 border border-gray-200/50'
+          } shadow-lg`}>
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium">
+              {language === 'ar' 
+                ? 'يتم تحديث الحجوزات تلقائياً كل 5-10 ثوانِ'
+                : 'Bookings update automatically every 5-10 seconds'
+              }
+            </span>
+          </div>
         </div>
       </div>
     </div>
