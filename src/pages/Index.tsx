@@ -16,8 +16,10 @@ import StatsSection from '@/components/StatsSection';
 import WhyChooseUsSection from '@/components/WhyChooseUsSection';
 import AboutUsSection from '@/components/AboutUsSection';
 import LocationSection from '@/components/LocationSection';
+import PricingIndicator from '@/components/PricingIndicator';
 import { services } from '@/data/services';
 import { useAppState } from '@/hooks/useAppState';
+import { usePricing } from '@/hooks/usePricing';
 
 const Index = () => {
   const location = useLocation();
@@ -41,12 +43,24 @@ const Index = () => {
     handleBackFromAdmin,
   } = useAppState();
 
+  const { 
+    userCountry, 
+    pricingTier, 
+    getServicesWithAdjustedPrices, 
+    getPriceRange,
+    isLoading: isPricingLoading 
+  } = usePricing();
+
   // Check if we're on the admin route and set admin login state
   useEffect(() => {
     if (location.pathname === '/admin' && !isAdmin && !showAdminPanel) {
       setShowAdminLogin(true);
     }
   }, [location.pathname, isAdmin, showAdminPanel, setShowAdminLogin]);
+
+  // Get services with adjusted prices
+  const adjustedServices = getServicesWithAdjustedPrices(services);
+  const priceRange = getPriceRange();
 
   // Show admin login if on admin route or showAdminLogin is true
   if (location.pathname === '/admin' || showAdminLogin) {
@@ -88,6 +102,22 @@ const Index = () => {
     );
   }
 
+  // Show loading state while detecting pricing
+  if (isPricingLoading) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDark ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
+          <p className={`${isDark ? 'text-white' : 'text-gray-900'}`}>
+            {language === 'ar' ? 'جاري تحميل الأسعار...' : 'Loading pricing...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // Show main homepage
   return (
     <div className={`min-h-screen transition-all duration-500 ${
@@ -103,6 +133,14 @@ const Index = () => {
         onDarkModeToggle={() => setIsDark(!isDark)}
       />
 
+      <PricingIndicator
+        language={language}
+        isDark={isDark}
+        userCountry={userCountry}
+        pricingTier={pricingTier}
+        priceRange={priceRange}
+      />
+
       <HeroSection language={language} isDark={isDark} />
       <TrustedCompanies language={language} isDark={isDark} />
       <StatsSection language={language} isDark={isDark} />
@@ -113,7 +151,7 @@ const Index = () => {
       <ServicesSection
         language={language}
         isDark={isDark}
-        services={services}
+        services={adjustedServices}
         onServiceSelect={handleServiceSelect}
       />
 
